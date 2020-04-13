@@ -1,0 +1,18 @@
+<Prefab>
+  <Window>
+    <Widget WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent" IsVisible="@IsCombatUIActive">
+      <Children>
+        <ListPanel LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="118" MarginRight="40">
+          <Children>
+            <!-- Army Arrow Counter -->
+            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" PositionYOffset="3">
+              <Children>
+                <ArmyArrowCounterWidget WidthSizePolicy = "Fixed" HeightSizePolicy = "Fixed" SuggestedWidth = "120" SuggestedHeight = "40" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginRight="30" Brush="AgentAmmoCount.Text" IntText="@AmmoCount" IsVisible="@ShowAmmoCount" IsAlertEnabled="@IsAmmoCountAlertEnabled"/>
+              </Children>
+            </Widget>
+          </Children>
+        </ListPanel>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>
