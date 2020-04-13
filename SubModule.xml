@@ -1,0 +1,26 @@
+ <Module>
+     <Name value="Army Arrow Counter"/>
+     <Id value="ArmyArrowCounter"/>
+     <Version value="v1.0.2"/>
+     <SingleplayerModule value="true"/>
+     <MultiplayerModule value="false"/>
+     <DependedModules>
+         <DependedModule Id="Native"/>
+         <DependedModule Id="SandBoxCore"/>
+         <DependedModule Id="Sandbox"/>
+         <DependedModule Id="CustomBattle"/>
+         <DependedModule Id="StoryMode" />
+     </DependedModules>
+     <SubModules>
+         <SubModule>
+             <Name value="ArmyArrowCounter"/>
+             <DLLName value="ArmyArrowCounter.dll"/>
+             <SubModuleClassType value="ArmyArrowCounter.Main"/>
+             <Tags>
+                 <Tag key="DedicatedServerType" value="none" />
+                 <Tag key="IsNoRenderModeElement" value="false" />
+             </Tags>
+         </SubModule>
+     </SubModules>
+     <Xmls/>
+ </Module>
