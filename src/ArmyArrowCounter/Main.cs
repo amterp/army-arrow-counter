@@ -24,6 +24,7 @@ namespace ArmyArrowCounter
             {
                 return;
             }
+
             mission.AddMissionBehaviour(new AacMissionBehavior());
         }
     }

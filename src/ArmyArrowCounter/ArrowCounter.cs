@@ -1,21 +1,63 @@
-﻿using TaleWorlds.Core;
+﻿using System;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter
 {
-    class ArrowTracker
+    class ArrowCounter
     {
-        internal int RemainingArrows { get; private set; }
-        internal int MaxArrows { get; private set; }
+        public event Action<int> RemainingArrowsUpdateEvent;
+        public event Action<int> MaxArrowsUpdateEvent;
+        public int RemainingArrows { get; private set; }
+        public int MaxArrows { get; private set; }
+
+        private readonly AacMissionBehavior AacMissionBehavior;
+
+        public ArrowCounter(AacMissionBehavior aacMissionBehavior)
+        {
+            AacMissionBehavior = aacMissionBehavior;
+            aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
+            aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
+            aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
+            aacMissionBehavior.AllyFiredMissileEvent += OnAllyFiredMissile;
+        }
+
+        private void OnAllyAgentBuilt(Agent agent)
+        {
+            AddAgent(agent);
+        }
+
+        private void OnAllyAgentRemoved(Agent agent)
+        {
+            RemoveAgent(agent);
+        }
+
+        private void OnAllyFiredMissile()
+        {
+            AddToRemainingArrows(-1);
+        }
+
+        private void OnPlayerBuilt()
+        {
+            foreach (Agent agent in AacMissionBehavior.Mission.Agents)
+            {
+                if (Utils.IsPlayerAlly(agent))
+                {
+                    AddAgent(agent);
+                }
+            }
+        }
 
         internal void AddToRemainingArrows(int deltaRemainingArrows)
         {
             RemainingArrows += deltaRemainingArrows;
+            RemainingArrowsUpdateEvent?.Invoke(RemainingArrows);
         }
 
         internal void AddToMaxArrows(int deltaMaxArrows)
         {
             MaxArrows += deltaMaxArrows;
+            MaxArrowsUpdateEvent?.Invoke(MaxArrows);
         }
 
         internal bool AddAgent(Agent agent)

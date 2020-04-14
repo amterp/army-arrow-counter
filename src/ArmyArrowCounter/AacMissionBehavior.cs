@@ -1,22 +1,28 @@
 ﻿using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using System;
 
 namespace ArmyArrowCounter
 {
     class AacMissionBehavior : MissionBehaviour
     {
-        private readonly ArrowTracker ArrowTracker;
-        private readonly Logger Logger;
+        public event Action PlayerBuiltEvent;
+        public event Action PlayerKilledEvent;
+        public event Action<Agent> AllyAgentBuiltEvent;
+        public event Action<Agent> AllyAgentRemovedEvent;
+        public event Action BattleStartEvent;
+        public event Action AllyFiredMissileEvent;
 
         private bool IsActivated = false;
         private bool PlayerAgentAlive = false;
-        private short NumberOfPlayerAlliedSoldiersWithRangedAmmo = 0;
 
-        public AacMissionBehavior()
-        {
-            ArrowTracker = new ArrowTracker();
-            Logger = new Logger(ArrowTracker);
+        private ArrowCounter ArrowCounter;
+        private AacUiApplier AacUiApplier;
+
+        public AacMissionBehavior() {
+            ArrowCounter = new ArrowCounter(this);
+            AacUiApplier = new AacUiApplier(this, new AacVM(ArrowCounter));
         }
 
         public override MissionBehaviourType BehaviourType => MissionBehaviourType.Other;
@@ -26,7 +32,7 @@ namespace ArmyArrowCounter
             base.OnMissionModeChange(oldMissionMode, atStart);
             if (oldMissionMode == MissionMode.StartUp && Mission.Mode == MissionMode.Battle)
             {
-                Utils.Log("Army Arrow Counter active.");
+                BattleStartEvent?.Invoke();
                 IsActivated = true;
             }
             else
@@ -52,16 +58,13 @@ namespace ArmyArrowCounter
             if (!PlayerAgentAlive)
             {
                 PlayerAgentAlive = true;
-                PerformInitialCount();
+                PlayerBuiltEvent?.Invoke();
                 return;
             }
 
             if (agent.IsFriendOf(Agent.Main))
             {
-                if (ArrowTracker.AddAgent(agent))
-                {
-                    NumberOfPlayerAlliedSoldiersWithRangedAmmo++;
-                }
+                AllyAgentBuiltEvent(agent);
             }
         }
 
@@ -76,16 +79,14 @@ namespace ArmyArrowCounter
 
             if (Agent.Main == null || affectedAgent.IsMine)
             {
+                PlayerKilledEvent?.Invoke();
                 PlayerAgentAlive = false;
                 return;
             }
 
-            if (IsPlayerAlly(affectedAgent))
+            if (Utils.IsPlayerAlly(affectedAgent))
             {
-                if (ArrowTracker.RemoveAgent(affectedAgent))
-                {
-                    NumberOfPlayerAlliedSoldiersWithRangedAmmo--;
-                }
+                AllyAgentRemovedEvent?.Invoke(affectedAgent);
             }
         }
 
@@ -98,30 +99,10 @@ namespace ArmyArrowCounter
                 return;
             }
 
-            if (PlayerAgentAlive && IsPlayerAlly(shooterAgent))
+            if (PlayerAgentAlive && Utils.IsPlayerAlly(shooterAgent))
             {
-                ArrowTracker.AddToRemainingArrows(-1);
-                Logger.OnAgentShootMissile(NumberOfPlayerAlliedSoldiersWithRangedAmmo);
+                AllyFiredMissileEvent?.Invoke();
             }
-        }
-
-        private void PerformInitialCount()
-        {
-            foreach (Agent agent in Mission.Agents)
-            {
-                if (IsPlayerAlly(agent))
-                {
-                    if (ArrowTracker.AddAgent(agent))
-                    {
-                        NumberOfPlayerAlliedSoldiersWithRangedAmmo++;
-                    }
-                }
-            }
-        }
-
-        private static bool IsPlayerAlly(Agent agent)
-        {
-            return agent.IsFriendOf(Agent.Main) && !agent.IsMine;
         }
     }
 }

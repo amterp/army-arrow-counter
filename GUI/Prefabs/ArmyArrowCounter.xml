@@ -1,13 +1,14 @@
 <Prefab>
   <Window>
-    <Widget WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent" IsVisible="@IsCombatUIActive">
+    <Widget WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent">
       <Children>
-        <ListPanel LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="118" MarginRight="40">
+        <ListPanel LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="0" MarginLeft="12">
           <Children>
             <!-- Army Arrow Counter -->
-            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" PositionYOffset="3">
+            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" PositionYOffset="-40">
               <Children>
-                <ArmyArrowCounterWidget WidthSizePolicy = "Fixed" HeightSizePolicy = "Fixed" SuggestedWidth = "120" SuggestedHeight = "40" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginRight="30" Brush="AgentAmmoCount.Text" IntText="@AmmoCount" IsVisible="@ShowAmmoCount" IsAlertEnabled="@IsAmmoCountAlertEnabled"/>
+                <TextWidget WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="Army Arrow Count:" Brush="ArmyArrowCounter.Header"/>
+                <TextWidget SuggestedWidth = "90" HorizontalAlignment="Left" VerticalAlignment="Bottom" PositionYOffset="20" Brush="ArmyArrowCounter.Count" Text="@ArrowCounterText"/>
               </Children>
             </Widget>
           </Children>
