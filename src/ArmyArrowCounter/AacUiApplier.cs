@@ -5,21 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.Engine.GauntletUI;
+using TaleWorlds.Library;
 
 namespace ArmyArrowCounter
 {
     class AacUiApplier
     {
-        private AacVM AacVM;
+        private ViewModel ViewModel;
         private GauntletLayer GauntletLayer;
 
-        public AacUiApplier(AacMissionBehavior aacMissionBehavior, AacVM aacVM)
+        public AacUiApplier(AacMissionBehavior aacMissionBehavior, ViewModel viewModel)
         {
-            AacVM = aacVM;
+            ViewModel = viewModel;
             aacMissionBehavior.BattleStartEvent += OnBattleStart;
             aacMissionBehavior.PlayerKilledEvent += OnPlayerKilled;
             GauntletLayer = new GauntletLayer(100);
-            GauntletLayer.LoadMovie("ArmyArrowCounter", AacVM);
+            GauntletLayer.LoadMovie("ArmyArrowCounter", ViewModel);
         }
 
         private void OnBattleStart()

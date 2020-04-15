@@ -22,7 +22,7 @@ namespace ArmyArrowCounter
 
         public AacMissionBehavior() {
             ArrowCounter = new ArrowCounter(this);
-            AacUiApplier = new AacUiApplier(this, new AacVM(ArrowCounter));
+            AacUiApplier = new AacUiApplier(this, AacVmFactory.Create(ArrowCounter));
         }
 
         public override MissionBehaviourType BehaviourType => MissionBehaviourType.Other;
