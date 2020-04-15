@@ -6,6 +6,8 @@
 2. Implement EXACT_PERCENT counter customization.
 3. Implement NEAREST_20_PERCENT counter customization.
 
+- Bug: Does not account for soldiers picking up arrows.
+
 ## Customization
 
 ### Counter Type
@@ -36,7 +38,7 @@
 
 #### NEAREST_WRITTEN
 
-- "Your ranged soldiers report that they have %s of their ammunition remaining.
+- "Your army has %s ammunition remaining.
 - Replace with %s with:
   - all - [100%, 100%]
   - almost all - [87.5%, 100%)
@@ -45,5 +47,5 @@
   - about half - [41.5%, 58.5%)
   - about one third - [29%, 41.5%)
   - about one quarter - [12.5%, 29%)
-  - almost none - (0%, 12.5%)
-  - none - [0%, 0%]
+  - almost no - (0%, 12.5%)
+  - no - [0%, 0%]

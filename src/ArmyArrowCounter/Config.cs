@@ -24,6 +24,6 @@ namespace ArmyArrowCounter
         //NEAREST_10_PERCENT,
         //NEAREST_20_PERCENT,
         //NEAREST_25_PERCENT,
-        //NEAREST_WRITTEN
+        NEAREST_WRITTEN
     }
 }

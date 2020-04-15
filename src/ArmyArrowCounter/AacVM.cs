@@ -7,9 +7,9 @@ using TaleWorlds.Library;
 
 namespace ArmyArrowCounter
 {
-    class AacVM : ViewModel
-	{
-		private ArrowCounter ArrowCounter;
+	abstract class AacVM : ViewModel
+    {
+		protected ArrowCounter ArrowCounter;
 
 		public AacVM(ArrowCounter arrowCounter)
 		{
@@ -23,12 +23,14 @@ namespace ArmyArrowCounter
 			base.OnPropertyChanged("ArrowCounterText");
 		}
 
+		protected abstract string GetArrowCounterText();
+
 		[DataSourceProperty]
 		public string ArrowCounterText
 		{
 			get
 			{
-				return String.Format("{0} / {1}", ArrowCounter.RemainingArrows, ArrowCounter.MaxArrows);
+				return GetArrowCounterText();
 			}
 			set
 			{

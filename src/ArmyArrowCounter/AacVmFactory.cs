@@ -22,9 +22,11 @@ namespace ArmyArrowCounter
         {
             switch(Config.CounterType)
             {
+                case CounterType.NEAREST_WRITTEN:
+                    return new NearestWrittenVM(arrowCounter);
                 case CounterType.EXACT_FRACTION:
                 default:
-                    return new AacVM(arrowCounter);
+                    return new ExactFractionVM(arrowCounter);
             }
         }
 
