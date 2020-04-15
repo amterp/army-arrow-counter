@@ -24,6 +24,8 @@ namespace ArmyArrowCounter
             {
                 case CounterType.NEAREST_WRITTEN:
                     return new NearestWrittenVM(arrowCounter);
+                case CounterType.EXACT_PERCENT:
+                    return new ExactPercentVM(arrowCounter);
                 case CounterType.EXACT_FRACTION:
                 default:
                     return new ExactFractionVM(arrowCounter);

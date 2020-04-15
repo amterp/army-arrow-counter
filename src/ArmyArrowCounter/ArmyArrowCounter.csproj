@@ -112,6 +112,7 @@
     <Compile Include="AacVmFactory.cs" />
     <Compile Include="ArrowCounter.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="ExactPercentVM.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="NearestWrittenVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
