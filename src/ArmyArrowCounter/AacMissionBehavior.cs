@@ -12,6 +12,7 @@ namespace ArmyArrowCounter
         public event Action<Agent> AllyAgentBuiltEvent;
         public event Action<Agent> AllyAgentRemovedEvent;
         public event Action BattleStartEvent;
+        public event Action SiegeBattleStartEvent;
         public event Action AllyFiredMissileEvent;
 
         private bool IsActivated = false;
@@ -19,10 +20,12 @@ namespace ArmyArrowCounter
 
         private ArrowCounter ArrowCounter;
         private AacUiApplier AacUiApplier;
+        //private EventLogger EventLogger;
 
         public AacMissionBehavior() {
             ArrowCounter = new ArrowCounter(this);
             AacUiApplier = new AacUiApplier(this, AacVmFactory.Create(ArrowCounter));
+            //EventLogger = new EventLogger(this, ArrowCounter);
         }
 
         public override MissionBehaviourType BehaviourType => MissionBehaviourType.Other;
@@ -33,6 +36,12 @@ namespace ArmyArrowCounter
             if (oldMissionMode == MissionMode.StartUp && Mission.Mode == MissionMode.Battle)
             {
                 BattleStartEvent?.Invoke();
+                IsActivated = true;
+            }
+            else if (oldMissionMode == MissionMode.Deployment && Mission.Mode == MissionMode.Battle)
+            {
+                SiegeBattleStartEvent?.Invoke();
+                PlayerAgentAlive = true;
                 IsActivated = true;
             }
             else
@@ -93,7 +102,7 @@ namespace ArmyArrowCounter
         public override void OnAgentShootMissile(Agent shooterAgent, EquipmentIndex weaponIndex, Vec3 position, Vec3 velocity, Mat3 orientation, bool hasRigidBody, int forcedMissileIndex)
         {
             base.OnAgentShootMissile(shooterAgent, weaponIndex, position, velocity, orientation, hasRigidBody, forcedMissileIndex);
-
+            
             if (!IsActivated)
             {
                 return;

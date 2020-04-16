@@ -16,10 +16,16 @@ namespace ArmyArrowCounter
         public ArrowCounter(AacMissionBehavior aacMissionBehavior)
         {
             AacMissionBehavior = aacMissionBehavior;
+            aacMissionBehavior.SiegeBattleStartEvent += OnSiegeBattleStart;
             aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
             aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
             aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
             aacMissionBehavior.AllyFiredMissileEvent += OnAllyFiredMissile;
+        }
+
+        private void OnSiegeBattleStart()
+        {
+            CountAllAlliedAgents();
         }
 
         private void OnAllyAgentBuilt(Agent agent)
@@ -38,6 +44,11 @@ namespace ArmyArrowCounter
         }
 
         private void OnPlayerBuilt()
+        {
+            CountAllAlliedAgents();
+        }
+
+        internal void CountAllAlliedAgents()
         {
             foreach (Agent agent in AacMissionBehavior.Mission.Agents)
             {
