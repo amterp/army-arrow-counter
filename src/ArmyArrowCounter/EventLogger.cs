@@ -12,13 +12,13 @@ namespace ArmyArrowCounter
 
         public EventLogger(AacMissionBehavior aacMissionBehavior, ArrowCounter arrowCounter)
         {
-            //aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
-            //aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
+            aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
+            aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
             //aacMissionBehavior.AllyFiredMissileEvent += OnAllyFiredMissile;
-            //aacMissionBehavior.BattleStartEvent += OnBattleStart;
-            //aacMissionBehavior.SiegeBattleStartEvent += OnSiegeBattleStart;
-            //aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
-            //aacMissionBehavior.PlayerKilledEvent += OnPlayerKilled;
+            aacMissionBehavior.BattleStartEvent += OnBattleStart;
+            aacMissionBehavior.SiegeBattleStartEvent += OnSiegeBattleStart;
+            aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
+            aacMissionBehavior.PlayerKilledEvent += OnPlayerKilled;
             //arrowCounter.RemainingArrowsUpdateEvent += OnRemainingArrowsUpdate;
             //arrowCounter.MaxArrowsUpdateEvent += OnMaxArrowsUpdate;
         }

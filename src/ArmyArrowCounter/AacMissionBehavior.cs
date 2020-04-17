@@ -13,6 +13,7 @@ namespace ArmyArrowCounter
         public event Action<Agent> AllyAgentRemovedEvent;
         public event Action BattleStartEvent;
         public event Action SiegeBattleStartEvent;
+        public event Action HideoutBattleStartEvent;
         public event Action AllyFiredMissileEvent;
 
         private bool IsActivated = false;
@@ -44,6 +45,12 @@ namespace ArmyArrowCounter
                 PlayerAgentAlive = true;
                 IsActivated = true;
             }
+            else if (oldMissionMode == MissionMode.Battle && Mission.Mode == MissionMode.Stealth)
+            {
+                HideoutBattleStartEvent?.Invoke();
+                PlayerAgentAlive = true;
+                IsActivated = true;
+            }
             else
             {
                 IsActivated = false;
@@ -71,7 +78,7 @@ namespace ArmyArrowCounter
                 return;
             }
 
-            if (agent.IsFriendOf(Agent.Main))
+            if (Utils.IsPlayerAlly(agent))
             {
                 AllyAgentBuiltEvent(agent);
             }
