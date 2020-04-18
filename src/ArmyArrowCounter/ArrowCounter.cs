@@ -54,12 +54,20 @@ namespace ArmyArrowCounter
 
         private void OnAllyFiredMissile(Agent agent)
         {
-            AgentHashCodeToCurrentArrows[agent.GetHashCode()]--;
+            if (AgentHashCodeToCurrentArrows.ContainsKey(agent.GetHashCode()))
+            {
+                AgentHashCodeToCurrentArrows[agent.GetHashCode()]--;
+            }
             AddToRemainingArrows(-1);
         }
 
         private void OnAllyPickedUpAmmo(Agent agent, SpawnedItemEntity item)
         {
+            if (!AgentHashCodeToCurrentArrows.ContainsKey(agent.GetHashCode()))
+            {
+                return;
+            }
+
             short lastKnownAmmoOnAgent = AgentHashCodeToCurrentArrows[agent.GetHashCode()];
             short newAmmoOnAgent = CalculateRemainingAmmo(agent);
             short amountPickedUp = (short) (newAmmoOnAgent - lastKnownAmmoOnAgent);

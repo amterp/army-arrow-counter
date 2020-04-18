@@ -6,7 +6,12 @@
 - Add toggle hotkey.
 - Fix the one dude's crash.
 - Count only solders under your command.
+
+## Bug List
+
+- KeyNotFoundException
 - Fix bug: Fleeing allies in hideouts don't subtract arrows when removed.
+- Crashes after you die with "Control your allies after death".
 
 ## Customization
 
