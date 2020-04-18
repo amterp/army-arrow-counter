@@ -8,7 +8,7 @@ namespace ArmyArrowCounter
 {
     class NearestXPercentVM : AacVM
     {
-		private static readonly string REPORT_FORMAT = "Army remaining arrows: ~{0}%";
+		private static readonly string REPORT_FORMAT = "~{0}%";
 		private static readonly int TO_PERCENT = 100;
 
 		private readonly int RoundTo;

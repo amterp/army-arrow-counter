@@ -8,7 +8,7 @@ namespace ArmyArrowCounter
 {
     class ExactPercentVM : AacVM
     {
-		private static readonly string REPORT_FORMAT = "Army remaining arrows: {0:P0}";
+		private static readonly string REPORT_FORMAT = "{0:P0}";
 
 		public ExactPercentVM(ArrowCounter arrowCounter) : base(arrowCounter)
 		{

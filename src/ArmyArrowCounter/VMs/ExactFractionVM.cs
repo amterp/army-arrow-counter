@@ -15,7 +15,7 @@ namespace ArmyArrowCounter
 
 		protected override string GetArrowCounterText()
 		{
-			return String.Format("Army remaining arrows: {0} / {1}", ArrowCounter.RemainingArrows, ArrowCounter.MaxArrows);
+			return String.Format("{0} / {1}", ArrowCounter.RemainingArrows, ArrowCounter.MaxArrows);
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace ArmyArrowCounter
 		{
 			get
 			{
-				return GetArrowCounterText();
+				return String.Format("{0}{1}", Config.Instance().Prefix, GetArrowCounterText());
 			}
 			set
 			{

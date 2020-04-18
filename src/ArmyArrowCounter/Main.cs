@@ -13,7 +13,7 @@ namespace ArmyArrowCounter
             if (!IsLoaded)
             {
                 Initialize();
-                Utils.Log("Mod loaded: Army Arrow Counter v1.2.1");
+                Utils.Log("Mod loaded: Army Arrow Counter v1.2.3");
                 IsLoaded = true;
             }
         }
@@ -31,7 +31,7 @@ namespace ArmyArrowCounter
 
         private void Initialize()
         {
-            AacVmFactory.Initialize();
+            Config.Instance();
         }
     }
 }

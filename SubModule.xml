@@ -1,7 +1,7 @@
  <Module>
      <Name value="Army Arrow Counter"/>
      <Id value="ArmyArrowCounter"/>
-     <Version value="v1.2.0"/>
+     <Version value="v1.2.3"/>
      <SingleplayerModule value="true"/>
      <MultiplayerModule value="false"/>
      <DependedModules>
