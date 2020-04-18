@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
@@ -12,6 +13,7 @@ namespace ArmyArrowCounter
         public int MaxArrows { get; private set; }
 
         private readonly AacMissionBehavior AacMissionBehavior;
+        private readonly Dictionary<int, short> AgentHashCodeToCurrentArrows = new Dictionary<int, short>();
 
         public ArrowCounter(AacMissionBehavior aacMissionBehavior)
         {
@@ -22,6 +24,7 @@ namespace ArmyArrowCounter
             aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
             aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
             aacMissionBehavior.AllyFiredMissileEvent += OnAllyFiredMissile;
+            aacMissionBehavior.OnAllyPickedUpAmmoEvent += OnAllyPickedUpAmmo;
         }
 
         private void OnSiegeBattleStart()
@@ -30,6 +33,11 @@ namespace ArmyArrowCounter
         }
 
         private void OnHideoutBattleStart()
+        {
+            CountAllAlliedAgents();
+        }
+
+        private void OnPlayerBuilt()
         {
             CountAllAlliedAgents();
         }
@@ -44,14 +52,19 @@ namespace ArmyArrowCounter
             RemoveAgent(agent);
         }
 
-        private void OnAllyFiredMissile()
+        private void OnAllyFiredMissile(Agent agent)
         {
+            AgentHashCodeToCurrentArrows[agent.GetHashCode()]--;
             AddToRemainingArrows(-1);
         }
 
-        private void OnPlayerBuilt()
+        private void OnAllyPickedUpAmmo(Agent agent, SpawnedItemEntity item)
         {
-            CountAllAlliedAgents();
+            short lastKnownAmmoOnAgent = AgentHashCodeToCurrentArrows[agent.GetHashCode()];
+            short newAmmoOnAgent = CalculateRemainingAmmo(agent);
+            short amountPickedUp = (short) (newAmmoOnAgent - lastKnownAmmoOnAgent);
+            AgentHashCodeToCurrentArrows[agent.GetHashCode()] += amountPickedUp;
+            AddToRemainingArrows(amountPickedUp);
         }
 
         internal void CountAllAlliedAgents()
@@ -80,6 +93,7 @@ namespace ArmyArrowCounter
         internal bool AddAgent(Agent agent)
         {
             short spawnAmmo = CalculateMaxAmmo(agent);
+            AgentHashCodeToCurrentArrows.Add(agent.GetHashCode(), spawnAmmo);
             AddToRemainingArrows(spawnAmmo);
             AddToMaxArrows(spawnAmmo);
             return spawnAmmo != 0;
@@ -97,15 +111,15 @@ namespace ArmyArrowCounter
         private static short CalculateRemainingAmmo(Agent agent)
         {
             MissionWeapon weaponFromSlot0 = agent.Equipment[EquipmentIndex.Weapon0];
-            short ammoFromSlot0 = weaponFromSlot0.Equals(MissionWeapon.Invalid) || weaponFromSlot0.IsShield() ? (short)0 : weaponFromSlot0.Amount;
+            short ammoFromSlot0 = weaponFromSlot0.Equals(MissionWeapon.Invalid) || weaponFromSlot0.IsShield() ? (short) 0 : weaponFromSlot0.Amount;
             MissionWeapon weaponFromSlot1 = agent.Equipment[EquipmentIndex.Weapon1];
-            short ammoFromSlot1 = weaponFromSlot1.Equals(MissionWeapon.Invalid) || weaponFromSlot1.IsShield() ? (short)0 : weaponFromSlot1.Amount;
+            short ammoFromSlot1 = weaponFromSlot1.Equals(MissionWeapon.Invalid) || weaponFromSlot1.IsShield() ? (short) 0 : weaponFromSlot1.Amount;
             MissionWeapon weaponFromSlot2 = agent.Equipment[EquipmentIndex.Weapon2];
-            short ammoFromSlot2 = weaponFromSlot2.Equals(MissionWeapon.Invalid) || weaponFromSlot2.IsShield() ? (short)0 : weaponFromSlot2.Amount;
+            short ammoFromSlot2 = weaponFromSlot2.Equals(MissionWeapon.Invalid) || weaponFromSlot2.IsShield() ? (short) 0 : weaponFromSlot2.Amount;
             MissionWeapon weaponFromSlot3 = agent.Equipment[EquipmentIndex.Weapon3];
-            short ammoFromSlot3 = weaponFromSlot3.Equals(MissionWeapon.Invalid) || weaponFromSlot3.IsShield() ? (short)0 : weaponFromSlot3.Amount;
+            short ammoFromSlot3 = weaponFromSlot3.Equals(MissionWeapon.Invalid) || weaponFromSlot3.IsShield() ? (short) 0 : weaponFromSlot3.Amount;
             MissionWeapon weaponFromSlot4 = agent.Equipment[EquipmentIndex.Weapon4];
-            short ammoFromSlot4 = weaponFromSlot4.Equals(MissionWeapon.Invalid) || weaponFromSlot4.IsShield() ? (short)0 : weaponFromSlot4.Amount;
+            short ammoFromSlot4 = weaponFromSlot4.Equals(MissionWeapon.Invalid) || weaponFromSlot4.IsShield() ? (short) 0 : weaponFromSlot4.Amount;
 
             return (short)(ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
         }

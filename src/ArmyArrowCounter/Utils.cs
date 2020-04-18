@@ -30,5 +30,10 @@ namespace ArmyArrowCounter
         {
             return agent.IsFriendOf(Agent.Main) && !agent.IsMine;
         }
+
+        internal static bool IsAmmo(SpawnedItemEntity item)
+        {
+            return item.IsStuckMissile() || item.WeaponCopy.IsAnyAmmo();
+        }
     }
 }

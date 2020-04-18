@@ -14,7 +14,8 @@ namespace ArmyArrowCounter
         public event Action BattleStartEvent;
         public event Action SiegeBattleStartEvent;
         public event Action HideoutBattleStartEvent;
-        public event Action AllyFiredMissileEvent;
+        public event Action<Agent> AllyFiredMissileEvent;
+        public event Action<Agent, SpawnedItemEntity> OnAllyPickedUpAmmoEvent;
 
         private bool IsActivated = false;
         private bool PlayerAgentAlive = false;
@@ -117,7 +118,27 @@ namespace ArmyArrowCounter
 
             if (PlayerAgentAlive && Utils.IsPlayerAlly(shooterAgent))
             {
-                AllyFiredMissileEvent?.Invoke();
+                AllyFiredMissileEvent?.Invoke(shooterAgent);
+            }
+        }
+
+        public override void OnItemPickup(Agent agent, SpawnedItemEntity item)
+        {
+            base.OnItemPickup(agent, item);
+            
+            if (!IsActivated)
+            {
+                return;
+            }
+
+            if (!Utils.IsAmmo(item))
+            {
+                return;
+            }
+
+            if (PlayerAgentAlive && Utils.IsPlayerAlly(agent))
+            {
+                OnAllyPickedUpAmmoEvent?.Invoke(agent, item);
             }
         }
     }

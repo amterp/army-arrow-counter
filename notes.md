@@ -2,12 +2,11 @@
 
 ## Todo List
 
-- Add option to not print prefix i.e. just number (thank you thenewking1).
 - Optionally support ModLib or OptionScreen or whatever to provide in-game settings.
 - Add toggle hotkey.
 - Fix the one dude's crash.
 - Count only solders under your command.
-- Fix bug: Does not account for soldiers picking up arrows. (Perhaps re-count arrows on firing agent?)
+- Fix bug: Fleeing allies in hideouts don't subtract arrows when removed.
 
 ## Customization
 
