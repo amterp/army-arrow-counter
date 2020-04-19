@@ -18,7 +18,6 @@ namespace ArmyArrowCounter
         {
             ViewModel = viewModel;
             aacMissionBehavior.BattleStartEvent += OnBattleStart;
-            aacMissionBehavior.PlayerKilledEvent += OnPlayerKilled;
             GauntletLayer = new GauntletLayer(100);
             GauntletLayer.LoadMovie("ArmyArrowCounter", ViewModel);
         }
@@ -26,11 +25,6 @@ namespace ArmyArrowCounter
         private void OnBattleStart()
         {
             ScreenManager.TopScreen.AddLayer(GauntletLayer);
-        }
-
-        private void OnPlayerKilled()
-        {
-            ScreenManager.TopScreen.RemoveLayer(GauntletLayer);
         }
     }
 }

@@ -26,14 +26,34 @@ namespace ArmyArrowCounter
             InformationManager.DisplayMessage(new InformationMessage(String.Format(stringFormat, stringFormatArgs), color));
         }
 
-        internal static bool IsPlayerAlly(Agent agent)
+        internal static bool IsPlayerAlly(Agent agent, Agent player)
         {
-            return agent.IsFriendOf(Agent.Main) && !agent.IsMine;
+            return agent.IsFriendOf(player) && !agent.IsMine;
         }
 
         internal static bool IsAmmo(SpawnedItemEntity item)
         {
             return item.IsStuckMissile() || item.WeaponCopy.IsAnyAmmo();
+        }
+
+        internal static bool IsStartOfBattle(MissionMode oldMode, MissionMode newMode)
+        {
+            return oldMode == MissionMode.StartUp && newMode == MissionMode.Battle;
+        }
+
+        internal static bool IsStartofSiege(MissionMode oldMode, MissionMode newMode)
+        {
+            return oldMode == MissionMode.Deployment && newMode == MissionMode.Battle;
+        }
+
+        internal static bool IsStartofHideoutBattle(MissionMode oldMode, MissionMode newMode)
+        {
+            return oldMode == MissionMode.Battle && newMode == MissionMode.Stealth;
+        }
+
+        internal static bool IsEndOfHideoutConversation(MissionMode oldMode, MissionMode newMode)
+        {
+            return oldMode == MissionMode.Conversation && newMode == MissionMode.Stealth;
         }
     }
 }

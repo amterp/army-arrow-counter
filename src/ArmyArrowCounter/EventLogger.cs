@@ -18,7 +18,6 @@ namespace ArmyArrowCounter
             aacMissionBehavior.BattleStartEvent += OnBattleStart;
             aacMissionBehavior.SiegeBattleStartEvent += OnSiegeBattleStart;
             aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
-            aacMissionBehavior.PlayerKilledEvent += OnPlayerKilled;
             //arrowCounter.RemainingArrowsUpdateEvent += OnRemainingArrowsUpdate;
             //arrowCounter.MaxArrowsUpdateEvent += OnMaxArrowsUpdate;
         }
@@ -51,11 +50,6 @@ namespace ArmyArrowCounter
         private void OnPlayerBuilt()
         {
             Utils.Log("Player built");
-        }
-
-        private void OnPlayerKilled()
-        {
-            Utils.Log("Player killed");
         }
 
         private void OnRemainingArrowsUpdate(int newRemainingArrows)

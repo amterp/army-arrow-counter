@@ -79,7 +79,7 @@ namespace ArmyArrowCounter
         {
             foreach (Agent agent in AacMissionBehavior.Mission.Agents)
             {
-                if (Utils.IsPlayerAlly(agent))
+                if (Utils.IsPlayerAlly(agent, AacMissionBehavior.PlayerAgent))
                 {
                     AddAgent(agent);
                 }
@@ -101,7 +101,10 @@ namespace ArmyArrowCounter
         internal bool AddAgent(Agent agent)
         {
             short spawnAmmo = CalculateMaxAmmo(agent);
-            AgentHashCodeToCurrentArrows.Add(agent.GetHashCode(), spawnAmmo);
+            if (!AgentHashCodeToCurrentArrows.ContainsKey(agent.GetHashCode()))
+            {
+                AgentHashCodeToCurrentArrows.Add(agent.GetHashCode(), spawnAmmo);
+            }
             AddToRemainingArrows(spawnAmmo);
             AddToMaxArrows(spawnAmmo);
             return spawnAmmo != 0;
@@ -129,7 +132,7 @@ namespace ArmyArrowCounter
             MissionWeapon weaponFromSlot4 = agent.Equipment[EquipmentIndex.Weapon4];
             short ammoFromSlot4 = weaponFromSlot4.Equals(MissionWeapon.Invalid) || weaponFromSlot4.IsShield() ? (short) 0 : weaponFromSlot4.Amount;
 
-            return (short)(ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
+            return (short) (ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
         }
 
         private static short CalculateMaxAmmo(Agent agent)
@@ -140,7 +143,7 @@ namespace ArmyArrowCounter
             short ammoFromSlot3 = agent.SpawnEquipment[EquipmentIndex.Weapon3].Ammo;
             short ammoFromSlot4 = agent.SpawnEquipment[EquipmentIndex.Weapon4].Ammo;
 
-            return (short)(ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
+            return (short) (ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
         }
     }
 }
