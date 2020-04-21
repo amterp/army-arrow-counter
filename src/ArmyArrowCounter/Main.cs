@@ -13,7 +13,7 @@ namespace ArmyArrowCounter
             if (!IsLoaded)
             {
                 Initialize();
-                Utils.Log("Mod loaded: Army Arrow Counter v1.2.5");
+                Utils.Log("Mod loaded: Army Arrow Counter v1.2.6");
                 IsLoaded = true;
             }
         }
