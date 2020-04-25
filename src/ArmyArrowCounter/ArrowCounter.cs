@@ -75,15 +75,28 @@ namespace ArmyArrowCounter
             AddToRemainingArrows(amountPickedUp);
         }
 
-        internal void CountAllAlliedAgents()
+        internal void CountAllAlliedAgents(bool countRemainingArrows = false)
         {
             foreach (Agent agent in AacMissionBehavior.Mission.Agents)
             {
                 if (Utils.IsPlayerAlly(agent, AacMissionBehavior.PlayerAgent))
                 {
-                    AddAgent(agent);
+                    AddAgent(agent, countRemainingArrows);
                 }
             }
+        }
+
+        internal void ForgetState()
+        {
+            AgentHashCodeToCurrentArrows.Clear();
+            AddToRemainingArrows(-RemainingArrows);
+            AddToMaxArrows(-MaxArrows);
+        }
+
+        internal void RecountAllAlliedAgents()
+        {
+            ForgetState();
+            CountAllAlliedAgents(true);
         }
 
         internal void AddToRemainingArrows(int deltaRemainingArrows)
@@ -98,25 +111,49 @@ namespace ArmyArrowCounter
             MaxArrowsUpdateEvent?.Invoke(MaxArrows);
         }
 
-        internal bool AddAgent(Agent agent)
+        internal void AddAgent(Agent agent, bool countRemaining = false)
         {
-            short spawnAmmo = CalculateMaxAmmo(agent);
-            if (!AgentHashCodeToCurrentArrows.ContainsKey(agent.GetHashCode()))
+            int agentHashCode = agent.GetHashCode();
+            if (AgentHashCodeToCurrentArrows.ContainsKey(agentHashCode))
             {
-                AgentHashCodeToCurrentArrows.Add(agent.GetHashCode(), spawnAmmo);
+                return;
             }
-            AddToRemainingArrows(spawnAmmo);
-            AddToMaxArrows(spawnAmmo);
-            return spawnAmmo != 0;
+
+            if (agent.Equipment == null)
+            {
+                return;
+            }
+
+            short maxAmmo = CalculateMaxAmmo(agent);
+            AddToMaxArrows(maxAmmo);
+
+            short remainingAmmo;
+            if (countRemaining)
+            {
+                remainingAmmo = CalculateRemainingAmmo(agent);
+            } 
+            else
+            {
+                remainingAmmo = maxAmmo;
+            }
+
+            AgentHashCodeToCurrentArrows.Add(agentHashCode, remainingAmmo);
+            AddToRemainingArrows(remainingAmmo);
         }
 
-        internal bool RemoveAgent(Agent agent)
+        internal void RemoveAgent(Agent agent)
         {
+            int agentHashCode = agent.GetHashCode();
+            if (!AgentHashCodeToCurrentArrows.ContainsKey(agentHashCode))
+            {
+                return;
+            }
+
+            AgentHashCodeToCurrentArrows.Remove(agentHashCode);
             short remainingAmmo = CalculateRemainingAmmo(agent);
             short maxAmmo = CalculateMaxAmmo(agent);
             AddToRemainingArrows(-remainingAmmo);
             AddToMaxArrows(-maxAmmo);
-            return maxAmmo != 0;
         }
 
         private static short CalculateRemainingAmmo(Agent agent)

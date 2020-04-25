@@ -21,11 +21,13 @@ namespace ArmyArrowCounter
         private bool IsActivated = false;
 
         private ArrowCounter ArrowCounter;
+        private ArrowRecountTriggerer ArrowRecountTriggerer;
         private AacUiApplier AacUiApplier;
         //private EventLogger EventLogger;
 
         public AacMissionBehavior() {
             ArrowCounter = new ArrowCounter(this);
+            ArrowRecountTriggerer = new ArrowRecountTriggerer(this, ArrowCounter);
             AacUiApplier = new AacUiApplier(this, AacVmFactory.Create(ArrowCounter));
             //EventLogger = new EventLogger(this, ArrowCounter);
         }

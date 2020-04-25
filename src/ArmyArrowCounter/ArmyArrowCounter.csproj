@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="AacMissionBehavior.cs" />
     <Compile Include="AacUiApplier.cs" />
+    <Compile Include="ArrowRecountTriggerer.cs" />
     <Compile Include="VMs\AacVM.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="VMs\ExactFractionVM.cs" />
