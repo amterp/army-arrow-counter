@@ -1,0 +1,10 @@
+<Brushes>
+    <Brush Name="ArmyArrowCounter.Count" Font="Galahad">
+    <Layers>
+      <BrushLayer Name="Default" />
+    </Layers>
+    <Styles>
+      <Style Name="Default" FontColor="#FFFFFFFF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0.1" TextGlowRadius="0" TextBlur="0.5" FontSize="24" />
+    </Styles>
+  </Brush>
+</Brushes>

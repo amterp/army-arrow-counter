@@ -2,13 +2,12 @@
   <Window>
     <Widget WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent">
       <Children>
-        <ListPanel LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="0" MarginLeft="12">
+        <ListPanel LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="20" MarginLeft="0">
           <Children>
             <!-- Army Arrow Counter -->
-            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" PositionYOffset="-40">
+            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Top" PositionYOffset="0">
               <Children>
-                <TextWidget WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="Army Arrow Count:" Brush="ArmyArrowCounter.Header"/>
-                <TextWidget SuggestedWidth = "90" HorizontalAlignment="Left" VerticalAlignment="Bottom" PositionYOffset="20" Brush="ArmyArrowCounter.Count" Text="@ArrowCounterText"/>
+                <TextWidget SuggestedWidth="600" HorizontalAlignment="Right" VerticalAlignment="Top" PositionYOffset="0" ClipContents="false" Brush="ArmyArrowCounter.Count" Text="@ArrowCounterText"/>
               </Children>
             </Widget>
           </Children>
