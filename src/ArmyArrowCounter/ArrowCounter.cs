@@ -77,7 +77,7 @@ namespace ArmyArrowCounter
 
         internal void CountAllAlliedAgents(bool countRemainingArrows = false)
         {
-            foreach (Agent agent in AacMissionBehavior.Mission.Agents)
+            foreach (Agent agent in AacMissionBehavior.Mission.Agents) // todo: can instead get player's MBTeam an iterate through friendly agents directly
             {
                 if (Utils.IsPlayerAlly(agent, AacMissionBehavior.PlayerAgent))
                 {
@@ -174,13 +174,12 @@ namespace ArmyArrowCounter
 
         private static short CalculateMaxAmmo(Agent agent)
         {
-            short ammoFromSlot0 = agent.SpawnEquipment[EquipmentIndex.Weapon0].Ammo;
-            short ammoFromSlot1 = agent.SpawnEquipment[EquipmentIndex.Weapon1].Ammo;
-            short ammoFromSlot2 = agent.SpawnEquipment[EquipmentIndex.Weapon2].Ammo;
-            short ammoFromSlot3 = agent.SpawnEquipment[EquipmentIndex.Weapon3].Ammo;
-            short ammoFromSlot4 = agent.SpawnEquipment[EquipmentIndex.Weapon4].Ammo;
+            int arrowAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.Arrow);
+            int boltAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.Bolt);
+            int javelinAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.Javelin);
+            int axeAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.ThrowingAxe);
 
-            return (short) (ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
+            return (short) (arrowAmmo + boltAmmo + javelinAmmo + axeAmmo);
         }
     }
 }

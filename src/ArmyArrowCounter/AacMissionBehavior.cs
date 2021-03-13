@@ -86,9 +86,9 @@ namespace ArmyArrowCounter
                 return;
             }
 
-            if (PlayerAgent != null && Utils.IsPlayerAlly(agent, PlayerAgent))
+            if (Utils.IsPlayerAlly(agent, PlayerAgent))
             {
-                AllyAgentBuiltEvent(agent);
+                AllyAgentBuiltEvent?.Invoke(agent);
             }
         }
 
@@ -115,6 +115,7 @@ namespace ArmyArrowCounter
             {
                 return;
             }
+
             if (PlayerAgent != null && Utils.IsPlayerAlly(shooterAgent, PlayerAgent))
             {
                 AllyFiredMissileEvent?.Invoke(shooterAgent);
