@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using TaleWorlds.Library;
 
 namespace ArmyArrowCounter
@@ -53,7 +48,8 @@ namespace ArmyArrowCounter
             {
                 Utils.LogWithColor(Utils.RED, "AAC ERROR: Expected to find config file located at '{0}', but could not. Using default config.", CONFIG_FILE_SUB_PATH);
                 return;
-            } catch (XmlException e)
+            }
+            catch (XmlException e)
             {
                 Utils.LogWithColor(Utils.RED, "AAC ERROR: Invalid config file '{0}'. Received exception: {1} Using default config.", CONFIG_FILE_SUB_PATH, e.Message);
                 return;
@@ -74,7 +70,8 @@ namespace ArmyArrowCounter
                     {
                         Utils.LogWithColor(Utils.RED, "AAC ERROR: Invalid {0}: '{1}'. Defaulting to {2}.", COUNTER_TYPE_XML_NAME, node.InnerText, DEFAULT_COUNTER_TYPE);
                     }
-                } else if (node.Name == PREFIX_XML_NAME)
+                }
+                else if (node.Name == PREFIX_XML_NAME)
                 {
                     foundPrefix = true;
                     _Config.Prefix = node.InnerText;

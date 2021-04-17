@@ -77,7 +77,7 @@ namespace ArmyArrowCounter
 
         internal void CountAllAlliedAgents(bool countRemainingArrows = false)
         {
-            foreach (Agent agent in AacMissionBehavior.Mission.Agents) // todo: can instead get player's MBTeam an iterate through friendly agents directly
+            foreach (Agent agent in AacMissionBehavior.Mission.Agents) // todo: can instead maybe get player's MBTeam an iterate through friendly agents directly
             {
                 if (Utils.IsPlayerAlly(agent, AacMissionBehavior.PlayerAgent))
                 {
@@ -131,7 +131,7 @@ namespace ArmyArrowCounter
             if (countRemaining)
             {
                 remainingAmmo = CalculateRemainingAmmo(agent);
-            } 
+            }
             else
             {
                 remainingAmmo = maxAmmo;

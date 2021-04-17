@@ -1,7 +1,7 @@
-﻿using TaleWorlds.Core;
+﻿using System;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
-using System;
 
 namespace ArmyArrowCounter
 {
@@ -23,13 +23,12 @@ namespace ArmyArrowCounter
         private ArrowCounter ArrowCounter;
         private ArrowRecountTriggerer ArrowRecountTriggerer;
         private AacUiApplier AacUiApplier;
-        //private EventLogger EventLogger;
 
-        public AacMissionBehavior() {
+        public AacMissionBehavior()
+        {
             ArrowCounter = new ArrowCounter(this);
             ArrowRecountTriggerer = new ArrowRecountTriggerer(this, ArrowCounter);
-            AacUiApplier = new AacUiApplier(this, AacVmFactory.Create(ArrowCounter));
-            //EventLogger = new EventLogger(this, ArrowCounter);
+            AacUiApplier = new AacUiApplier(this, AacViewModelFactory.Create(ArrowCounter));
         }
 
         public override MissionBehaviourType BehaviourType => MissionBehaviourType.Other;
@@ -125,7 +124,7 @@ namespace ArmyArrowCounter
         public override void OnItemPickup(Agent agent, SpawnedItemEntity item)
         {
             base.OnItemPickup(agent, item);
-            
+
             if (!IsActivated)
             {
                 return;

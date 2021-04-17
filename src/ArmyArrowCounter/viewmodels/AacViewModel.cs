@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaleWorlds.Library;
 
 namespace ArmyArrowCounter
 {
-	abstract class AacVM : ViewModel
-    {
+	abstract class AacViewModel : ViewModel
+	{
 		protected ArrowCounter ArrowCounter;
 
-		public AacVM(ArrowCounter arrowCounter)
+		public AacViewModel(ArrowCounter arrowCounter)
 		{
 			ArrowCounter = arrowCounter;
 			arrowCounter.RemainingArrowsUpdateEvent += OnArrowCountUpdated;

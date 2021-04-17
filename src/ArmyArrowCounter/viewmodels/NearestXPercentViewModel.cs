@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmyArrowCounter
 {
-    class NearestXPercentVM : AacVM
-    {
+	class NearestXPercentViewModel : AacViewModel
+	{
 		private static readonly string REPORT_FORMAT = "~{0}%";
 		private static readonly int TO_PERCENT = 100;
 
 		private readonly int RoundTo;
 
-		public NearestXPercentVM(ArrowCounter arrowCounter, int roundTo) : base(arrowCounter)
+		public NearestXPercentViewModel(ArrowCounter arrowCounter, int roundTo) : base(arrowCounter)
 		{
 			RoundTo = roundTo;
 		}

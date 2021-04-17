@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 
 namespace ArmyArrowCounter
 {
-	class NearestWrittenVM : AacVM
+	class NearestWrittenViewModel : AacViewModel
 	{
 		private static readonly string REPORT_FORMAT = "{0} ammunition remaining.";
 
-		public NearestWrittenVM(ArrowCounter arrowCounter) : base(arrowCounter)
+		public NearestWrittenViewModel(ArrowCounter arrowCounter) : base(arrowCounter)
 		{
 		}
 
@@ -67,7 +63,8 @@ namespace ArmyArrowCounter
 			if (Config.Instance().Prefix.IsEmpty())
 			{
 				return char.ToUpper(formattedString.First()) + formattedString.Substring(1);
-			} else
+			}
+			else
 			{
 				return formattedString;
 			}

@@ -1,5 +1,4 @@
-﻿using System;
-using TaleWorlds.MountAndBlade;
+﻿using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter
 {
@@ -20,7 +19,7 @@ namespace ArmyArrowCounter
 
         public override void OnMissionBehaviourInitialize(Mission mission)
         {
-            
+
             if (mission == null)
             {
                 return;

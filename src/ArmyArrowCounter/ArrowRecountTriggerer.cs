@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter
@@ -13,7 +9,7 @@ namespace ArmyArrowCounter
 
         private AacMissionBehavior aacMissionBehavior;
         private ArrowCounter arrowCounter;
-        
+
         private short removalsUntilNextRecount = 1;
         private bool active = false;
 
@@ -65,7 +61,7 @@ namespace ArmyArrowCounter
             {
                 return 1;
             }
-            
+
             return (short) Math.Max(Math.Ceiling(PROPORTION_OF_TROOPS__TO_DIE_BEFORE_RECOUNT * numAllies.Value), 1);
         }
     }

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmyArrowCounter
 {
-    class ExactPercentVM : AacVM
-    {
+	class ExactPercentViewModel : AacViewModel
+	{
 		private static readonly string REPORT_FORMAT = "{0:P0}";
 
-		public ExactPercentVM(ArrowCounter arrowCounter) : base(arrowCounter)
+		public ExactPercentViewModel(ArrowCounter arrowCounter) : base(arrowCounter)
 		{
 		}
 

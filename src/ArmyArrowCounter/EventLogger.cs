@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.MountAndBlade;
+﻿using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter
 {
+    /** For debugging. Intended use is to add the following line to AacMissionBehavior's constructor and to make this a property of it:
+     *  EventLogger = new EventLogger(this, ArrowCounter);
+     *  
+     *  Comment in/out whatever logs you want in this class's constructor.
+     */
     class EventLogger
     {
 
         public EventLogger(AacMissionBehavior aacMissionBehavior, ArrowCounter arrowCounter)
         {
-            aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
-            aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
+            //aacMissionBehavior.AllyAgentBuiltEvent += OnAllyAgentBuilt;
+            //aacMissionBehavior.AllyAgentRemovedEvent += OnAllyAgentRemoved;
             //aacMissionBehavior.AllyFiredMissileEvent += OnAllyFiredMissile;
-            aacMissionBehavior.BattleStartEvent += OnBattleStart;
-            aacMissionBehavior.SiegeBattleStartEvent += OnSiegeBattleStart;
-            aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
+            //aacMissionBehavior.BattleStartEvent += OnBattleStart;
+            //aacMissionBehavior.SiegeBattleStartEvent += OnSiegeBattleStart;
+            //aacMissionBehavior.PlayerBuiltEvent += OnPlayerBuilt;
             //arrowCounter.RemainingArrowsUpdateEvent += OnRemainingArrowsUpdate;
             //arrowCounter.MaxArrowsUpdateEvent += OnMaxArrowsUpdate;
         }
