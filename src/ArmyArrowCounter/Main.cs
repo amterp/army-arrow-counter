@@ -12,12 +12,12 @@ namespace ArmyArrowCounter
             if (!IsLoaded)
             {
                 Initialize();
-                Utils.Log("Mod loaded: Army Arrow Counter v1.3.1");
+                Utils.Log("Mod loaded: Army Arrow Counter v1.4.0");
                 IsLoaded = true;
             }
         }
 
-        public override void OnMissionBehaviourInitialize(Mission mission)
+        public override void OnMissionBehaviorInitialize(Mission mission)
         {
 
             if (mission == null)
@@ -25,7 +25,7 @@ namespace ArmyArrowCounter
                 return;
             }
 
-            mission.AddMissionBehaviour(new AacMissionBehavior());
+            mission.AddMissionBehavior(new AacMissionBehavior());
         }
 
         private void Initialize()

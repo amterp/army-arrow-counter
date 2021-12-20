@@ -5,7 +5,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter
 {
-    class AacMissionBehavior : MissionBehaviour
+    class AacMissionBehavior : MissionBehavior
     {
         public event Action PlayerBuiltEvent;
         public event Action<Agent> AllyAgentBuiltEvent;
@@ -31,7 +31,7 @@ namespace ArmyArrowCounter
             AacUiApplier = new AacUiApplier(this, AacViewModelFactory.Create(ArrowCounter));
         }
 
-        public override MissionBehaviourType BehaviourType => MissionBehaviourType.Other;
+        public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
 
         public override void OnMissionModeChange(MissionMode oldMissionMode, bool atStart)
         {
