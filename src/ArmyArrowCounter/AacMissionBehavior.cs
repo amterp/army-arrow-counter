@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace ArmyArrowCounter
-{
-    class AacMissionBehavior : MissionBehavior
-    {
+namespace ArmyArrowCounter {
+    class AacMissionBehavior : MissionBehavior {
         public event Action PlayerBuiltEvent;
         public event Action<Agent> AllyAgentBuiltEvent;
         public event Action<Agent> AllyAgentRemovedEvent;
@@ -24,8 +22,7 @@ namespace ArmyArrowCounter
         private ArrowRecountTriggerer ArrowRecountTriggerer;
         private AacUiApplier AacUiApplier;
 
-        public AacMissionBehavior()
-        {
+        public AacMissionBehavior() {
             ArrowCounter = new ArrowCounter(this);
             ArrowRecountTriggerer = new ArrowRecountTriggerer(this, ArrowCounter);
             AacUiApplier = new AacUiApplier(this, AacViewModelFactory.Create(ArrowCounter));
@@ -33,110 +30,85 @@ namespace ArmyArrowCounter
 
         public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
 
-        public override void OnMissionModeChange(MissionMode oldMissionMode, bool atStart)
-        {
+        public override void OnMissionModeChange(MissionMode oldMissionMode, bool atStart) {
             base.OnMissionModeChange(oldMissionMode, atStart);
 
-            if (Utils.IsStartOfBattle(oldMissionMode, Mission.Mode))
-            {
+            if (Utils.IsStartOfBattle(oldMissionMode, Mission.Mode)) {
                 BattleStartEvent?.Invoke();
                 IsActivated = true;
-            }
-            else if (Utils.IsStartofSiege(oldMissionMode, Mission.Mode))
-            {
+            } else if (Utils.IsStartofSiege(oldMissionMode, Mission.Mode)) {
                 PlayerAgent = Agent.Main;
                 IsActivated = true;
                 SiegeBattleStartEvent?.Invoke();
-            }
-            else if (Utils.IsStartofHideoutBattle(oldMissionMode, Mission.Mode))
-            {
+            } else if (Utils.IsStartofHideoutBattle(oldMissionMode, Mission.Mode)) {
                 PlayerAgent = Agent.Main;
                 IsActivated = true;
                 HideoutBattleStartEvent?.Invoke();
-            }
-            else if (Utils.IsEndOfHideoutConversation(oldMissionMode, Mission.Mode))
-            {
+            } else if (Utils.IsEndOfHideoutConversation(oldMissionMode, Mission.Mode)) {
                 IsActivated = true;
-            }
-            else
-            {
+            } else {
                 IsActivated = false;
             }
         }
 
-        public override void OnAgentBuild(Agent agent, Banner banner)
-        {
+        public override void OnAgentBuild(Agent agent, Banner banner) {
             base.OnAgentBuild(agent, banner);
 
-            if (!IsActivated)
-            {
+            if (!IsActivated) {
                 return;
             }
 
-            if (Agent.Main == null)
-            {
+            if (Agent.Main == null) {
                 return;
             }
 
-            if (PlayerAgent == null)
-            {
+            if (PlayerAgent == null) {
                 PlayerAgent = Agent.Main;
                 PlayerBuiltEvent?.Invoke();
                 return;
             }
 
-            if (Utils.IsPlayerAlly(agent, PlayerAgent))
-            {
+            if (Utils.IsPlayerAlly(agent, PlayerAgent)) {
                 AllyAgentBuiltEvent?.Invoke(agent);
             }
         }
 
-        public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
-        {
+        public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow) {
             base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
 
-            if (!IsActivated)
-            {
+            if (!IsActivated) {
                 return;
             }
 
-            if (PlayerAgent != null && Utils.IsPlayerAlly(affectedAgent, PlayerAgent))
-            {
+            if (PlayerAgent != null && Utils.IsPlayerAlly(affectedAgent, PlayerAgent)) {
                 AllyAgentRemovedEvent?.Invoke(affectedAgent);
             }
         }
 
-        public override void OnAgentShootMissile(Agent shooterAgent, EquipmentIndex weaponIndex, Vec3 position, Vec3 velocity, Mat3 orientation, bool hasRigidBody, int forcedMissileIndex)
-        {
+        public override void OnAgentShootMissile(Agent shooterAgent, EquipmentIndex weaponIndex, Vec3 position, Vec3 velocity, Mat3 orientation, bool hasRigidBody, int forcedMissileIndex) {
             base.OnAgentShootMissile(shooterAgent, weaponIndex, position, velocity, orientation, hasRigidBody, forcedMissileIndex);
 
-            if (!IsActivated)
-            {
+            if (!IsActivated) {
                 return;
             }
 
-            if (PlayerAgent != null && Utils.IsPlayerAlly(shooterAgent, PlayerAgent))
-            {
+            if (PlayerAgent != null && Utils.IsPlayerAlly(shooterAgent, PlayerAgent)) {
                 AllyFiredMissileEvent?.Invoke(shooterAgent);
             }
         }
 
-        public override void OnItemPickup(Agent agent, SpawnedItemEntity item)
-        {
+        public override void OnItemPickup(Agent agent, SpawnedItemEntity item) {
             base.OnItemPickup(agent, item);
 
-            if (!IsActivated)
-            {
+            if (!IsActivated) {
                 return;
             }
 
-            if (!Utils.IsAmmo(item))
-            {
+            if (!Utils.IsAmmo(item)) {
                 return;
             }
 
-            if (PlayerAgent != null && Utils.IsPlayerAlly(agent, PlayerAgent))
-            {
+            if (PlayerAgent != null && Utils.IsPlayerAlly(agent, PlayerAgent)) {
                 OnAllyPickedUpAmmoEvent?.Invoke(agent, item);
             }
         }

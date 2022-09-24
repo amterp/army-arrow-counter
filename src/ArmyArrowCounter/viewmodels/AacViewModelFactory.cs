@@ -1,13 +1,9 @@
 ﻿using TaleWorlds.Library;
 
-namespace ArmyArrowCounter
-{
-    class AacViewModelFactory
-    {
-        public static ViewModel Create(ArrowCounter arrowCounter)
-        {
-            switch (Config.Instance().CounterType)
-            {
+namespace ArmyArrowCounter {
+    class AacViewModelFactory {
+        public static ViewModel Create(ArrowCounter arrowCounter) {
+            switch (Config.Instance().CounterType) {
                 case CounterType.NEAREST_WRITTEN:
                     return new NearestWrittenViewModel(arrowCounter);
                 case CounterType.EXACT_PERCENT:

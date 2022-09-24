@@ -1,35 +1,28 @@
 ﻿using TaleWorlds.MountAndBlade;
 
-namespace ArmyArrowCounter
-{
-    public class Main : MBSubModuleBase
-    {
+namespace ArmyArrowCounter {
+    public class Main : MBSubModuleBase {
         private bool IsLoaded;
 
-        protected override void OnBeforeInitialModuleScreenSetAsRoot()
-        {
+        protected override void OnBeforeInitialModuleScreenSetAsRoot() {
             base.OnBeforeInitialModuleScreenSetAsRoot();
-            if (!IsLoaded)
-            {
+            if (!IsLoaded) {
                 Initialize();
-                Utils.Log("Mod loaded: Army Arrow Counter v1.5.0");
+                Utils.Log("Mod loaded: Army Arrow Counter v1.6.0");
                 IsLoaded = true;
             }
         }
 
-        public override void OnMissionBehaviorInitialize(Mission mission)
-        {
+        public override void OnMissionBehaviorInitialize(Mission mission) {
 
-            if (mission == null)
-            {
+            if (mission == null) {
                 return;
             }
 
             mission.AddMissionBehavior(new AacMissionBehavior());
         }
 
-        private void Initialize()
-        {
+        private void Initialize() {
             Config.Instance();
         }
     }
