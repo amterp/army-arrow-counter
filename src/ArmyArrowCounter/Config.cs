@@ -11,6 +11,7 @@ namespace ArmyArrowCounter {
         private static readonly string CONFIG_FILE_FULL_PATH = BasePath.Name + CONFIG_FILE_SUB_PATH;
         private static readonly CounterType DEFAULT_COUNTER_TYPE = CounterType.EXACT_FRACTION;
         private static readonly string DEFAULT_PREFIX = "Army arrows: ";
+        private static readonly bool IS_STEAM_WORKSHOP = false; // todo this is pretty hacky. Way to detect at runtime?
 
         private static Config _Config = null;
 
@@ -32,6 +33,10 @@ namespace ArmyArrowCounter {
 
         private static void Load() {
             _Config = new Config();
+
+            if (IS_STEAM_WORKSHOP) {
+                return;
+            }
 
             XmlDocument doc = new XmlDocument();
             try {

@@ -8,7 +8,7 @@ namespace ArmyArrowCounter {
             base.OnBeforeInitialModuleScreenSetAsRoot();
             if (!IsLoaded) {
                 Initialize();
-                Utils.Log("Mod loaded: Army Arrow Counter v1.6.0");
+                Utils.Log("Mod loaded: Army Arrow Counter v1.6.1 (Nexus)");
                 IsLoaded = true;
             }
         }
