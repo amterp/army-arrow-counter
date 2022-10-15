@@ -2,8 +2,13 @@
 
 ## Overview
 
-This is the repo for a [Mount & Blade II: Bannerlord](https://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/) mod named Army Arrow Counter. It's a simple utility mod which counts the amount of ammunition your army has remaining, updating a small UI counter element in the bottom left of the screen (example below). The mod is hosted and downloadable on Nexus Mods [here](https://www.nexusmods.com/mountandblade2bannerlord/mods/448), with over 20,000 downloads! It's also available [here](https://steamcommunity.com/sharedfiles/filedetails/?id=2875690459) on Steam Workshop.
-More about the mod and its gameplay effects/options can be read on the Nexus page - this repo focuses more on the development side.
+This is the repo for a [Mount & Blade II: Bannerlord](https://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/) mod named Army Arrow Counter. It's a simple utility mod which counts the amount of ammunition your army has remaining, updating a small UI counter element in the bottom left of the screen (example below). 
+
+The mod is hosted and downloadable on Nexus Mods [here](https://www.nexusmods.com/mountandblade2bannerlord/mods/448), with over 20,000 downloads! 
+
+It's also available [here](https://steamcommunity.com/sharedfiles/filedetails/?id=2875690459) on Steam Workshop.
+
+More about the mod and its gameplay effects/options can be read on Nexus/Steam linked above - this repo focuses more on the development side.
 
 <img src="repo-images/exact-fraction-example.PNG" alt="ui-example" width="250"/>
 
