@@ -1,3 +1,6 @@
+# Custom for ArmyArrowCounter
+
+**/*.csproj
 
 # Created by https://www.gitignore.io/api/visualstudio
 # Edit at https://www.gitignore.io/?templates=visualstudio
@@ -353,7 +356,3 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/visualstudio
-
-# Additional for ArmyArrowCounter
-
-**/*.csproj

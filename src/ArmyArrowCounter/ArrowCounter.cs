@@ -139,7 +139,7 @@ namespace ArmyArrowCounter {
             short ammoFromSlot2 = weaponFromSlot2.Equals(MissionWeapon.Invalid) || weaponFromSlot2.IsShield() ? (short)0 : weaponFromSlot2.Amount;
             MissionWeapon weaponFromSlot3 = agent.Equipment[EquipmentIndex.Weapon3];
             short ammoFromSlot3 = weaponFromSlot3.Equals(MissionWeapon.Invalid) || weaponFromSlot3.IsShield() ? (short)0 : weaponFromSlot3.Amount;
-            MissionWeapon weaponFromSlot4 = agent.Equipment[EquipmentIndex.Weapon4];
+            MissionWeapon weaponFromSlot4 = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
             short ammoFromSlot4 = weaponFromSlot4.Equals(MissionWeapon.Invalid) || weaponFromSlot4.IsShield() ? (short)0 : weaponFromSlot4.Amount;
 
             return (short)(ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);

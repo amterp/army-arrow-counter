@@ -1,0 +1,15 @@
+<Tasks>
+    <GetItem>
+        <ItemId Value="2875690459"/>
+    </GetItem>
+    <UpdateItem>
+        <ModuleFolder Value="F:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\ArmyArrowCounter"/>
+        <ChangeNotes Value="Update for game version 1.1.4 compatibility." />
+        <Tags> 
+            <Tag Value="UI" />
+            <Tag Value="Utility" />
+            <Tag Value="Singleplayer" />
+            <Tag Value="V1.1.4" />
+        </Tags>
+    </UpdateItem>
+</Tasks>
