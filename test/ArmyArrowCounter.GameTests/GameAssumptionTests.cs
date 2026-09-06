@@ -26,6 +26,14 @@ namespace ArmyArrowCounter.GameTests {
         }
 
         [SkippableFact]
+        public void CountingEmptyEquipmentReportsNothingRatherThanThrowing() {
+            // The v1.8.0 crash reached the game's GetMaxAmmo with an empty slot. This walks
+            // the real guard over real game types; before the fix it throws rather than fails.
+            Assert.Equal(0, Probe.EmptyEquipmentMax());
+            Assert.Equal(0, Probe.EmptyEquipmentRemaining());
+        }
+
+        [SkippableFact]
         public void IsShieldIsSafeToCallOnAnEmptySlot() {
             // IsShield() reads _weapons.Count, so the emptiness check must short-circuit ahead of it.
             Assert.False(Probe.EmptySlotIsShield());

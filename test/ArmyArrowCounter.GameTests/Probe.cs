@@ -9,5 +9,10 @@ namespace ArmyArrowCounter.GameTests {
         public static bool EmptySlotEqualsInvalid() => EmptySlot().Equals(MissionWeapon.Invalid);
         public static bool EmptySlotIsEmpty() => EmptySlot().IsEmpty;
         public static bool EmptySlotIsShield() => EmptySlot().IsShield();
+
+        // A default-constructed MissionEquipment leaves every slot empty, with the null
+        // internals that made v1.8.0 crash. Both totals must survive it and report nothing.
+        public static int EmptyEquipmentMax() => AmmoCount.Max(new MissionEquipment());
+        public static int EmptyEquipmentRemaining() => AmmoCount.Remaining(new MissionEquipment());
     }
 }
