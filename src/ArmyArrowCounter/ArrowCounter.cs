@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter {
@@ -55,7 +54,7 @@ namespace ArmyArrowCounter {
         }
 
         private void OnAllyPickedUpAmmo(Agent agent, SpawnedItemEntity item) {
-            Ledger.RecordObservedAmmo(agent.Index, CalculateRemainingAmmo(agent));
+            Ledger.RecordObservedAmmo(agent.Index, AmmoCount.Remaining(agent.Equipment));
         }
 
         internal void CountAllAlliedAgents(bool countRemainingArrows = false) {
@@ -81,8 +80,8 @@ namespace ArmyArrowCounter {
                 return;
             }
 
-            int maxAmmo = CalculateMaxAmmo(agent);
-            int remainingAmmo = countRemaining ? CalculateRemainingAmmo(agent) : maxAmmo;
+            int maxAmmo = AmmoCount.Max(agent.Equipment);
+            int remainingAmmo = countRemaining ? AmmoCount.Remaining(agent.Equipment) : maxAmmo;
             Ledger.Add(agent.Index, maxAmmo, remainingAmmo);
         }
 
@@ -90,37 +89,5 @@ namespace ArmyArrowCounter {
             Ledger.Remove(agent.Index);
         }
 
-        // Weapon0..Weapon3 plus the extra slot are the only ones that can hold ammo.
-        private static readonly EquipmentIndex[] AmmoBearingSlots = {
-            EquipmentIndex.Weapon0,
-            EquipmentIndex.Weapon1,
-            EquipmentIndex.Weapon2,
-            EquipmentIndex.Weapon3,
-            EquipmentIndex.ExtraWeaponSlot,
-        };
-
-        private static int CalculateRemainingAmmo(Agent agent) {
-            int total = 0;
-            foreach (EquipmentIndex slot in AmmoBearingSlots) {
-                MissionWeapon weapon = agent.Equipment[slot];
-                if (weapon.IsEmpty || weapon.IsShield()) {
-                    continue;
-                }
-                total += weapon.Amount;
-            }
-            return total;
-        }
-
-        private static int CalculateMaxAmmo(Agent agent) {
-            int total = 0;
-            foreach (EquipmentIndex slot in AmmoBearingSlots) {
-                MissionWeapon weapon = agent.Equipment[slot];
-                if (weapon.IsEmpty || weapon.IsShield()) {
-                    continue;
-                }
-                total += agent.Equipment.GetMaxAmmo(slot);
-            }
-            return total;
-        }
     }
 }
