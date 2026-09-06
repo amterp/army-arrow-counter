@@ -16,4 +16,22 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
   </ItemGroup>
 
+  <!-- Assemble the folder a player drops into Modules/, so packaging is part of the
+       build rather than a step someone has to remember. -->
+  <PropertyGroup>
+    <ModuleDir>$(MSBuildProjectDirectory)/../../build/ArmyArrowCounter</ModuleDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ModuleContent Include="../SubModule.xml" PackagePath="" />
+    <ModuleContent Include="../config/**/*" PackagePath="config" />
+    <ModuleContent Include="../GUI/**/*" PackagePath="GUI" />
+  </ItemGroup>
+
+  <Target Name="AssembleModule" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModuleDir)/bin/Win64_Shipping_Client" />
+    <Copy SourceFiles="@(ModuleContent)"
+          DestinationFiles="@(ModuleContent->'$(ModuleDir)/%(PackagePath)/%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
 </Project>
