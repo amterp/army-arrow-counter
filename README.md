@@ -12,6 +12,27 @@ More about the mod and its gameplay effects/options can be read on Nexus/Steam l
 
 <img src="repo-images/exact-fraction-example.PNG" alt="ui-example" width="250"/>
 
+## Building
+
+Requires a .NET SDK. No Windows machine and no Bannerlord install: the game's assemblies come from [BUTR's reference-assembly packages](https://github.com/BUTR/Bannerlord.ReferenceAssemblies) on NuGet.
+
+```
+dotnet build src/ArmyArrowCounter
+dotnet test test/ArmyArrowCounter.Tests
+```
+
+The build writes an installable module to `build/ArmyArrowCounter`. Copy that folder into the game's `Modules` directory to try it.
+
+The game version being targeted is `BannerlordVersion` in `src/ArmyArrowCounter/ArmyArrowCounter.csproj`. Changing that one line is where a compatibility update starts; BUTR publish a package per game release, usually within a few days of it.
+
+The mod's own version is `Version` in the same file, and that is the only place it is written down. The build stamps it into the packaged `SubModule.xml`, and the mod reads it back off its own assembly at startup.
+
+### Tests
+
+`src/ArmyArrowCounter/core` holds everything with no reference to TaleWorlds types: counter text formatting, config parsing, and the per-agent ammunition bookkeeping. The test project compiles those files in rather than referencing a second assembly, so the mod still ships a single DLL.
+
+The rest of the mod cannot be tested here. Reference assemblies carry metadata but no implementation, so anything that calls into the game at runtime will not execute outside it. The Gauntlet prefab and brush under `src/GUI` are resolved by name while the game runs, so a real battle remains the only way to confirm the counter draws at all.
+
 ## Repository Structure
 
 - When packaged, ArmyArrowCounter (AAC) has the following structure:
@@ -19,6 +40,7 @@ More about the mod and its gameplay effects/options can be read on Nexus/Steam l
     - `Win64_Shipping_Client`
       - Contains all the DLL(s) for the mod.
       - Is not located in this repo - these are generated when the project is built.
+  - The assembled folder is written to `build/ArmyArrowCounter` by a build, and is what gets released.
   - `config`
     - Contains custom AAC config.
     - This corresponds exactly to the `/src/config` folder in this repository.
