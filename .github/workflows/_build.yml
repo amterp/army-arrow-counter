@@ -1,0 +1,35 @@
+# Builds the module and leaves it as an artifact for whatever asked. Every other
+# workflow calls this one, so there is a single definition of how the mod is built.
+name: Build module
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        required: false
+        type: string
+        default: ArmyArrowCounter
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The mod targets .NET Framework 4.7.2, but reference assemblies from NuGet
+      # mean it compiles on Linux; no Windows runner is needed.
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Build
+        run: dotnet build src/ArmyArrowCounter -c Release
+
+      - name: Test
+        run: dotnet test test/ArmyArrowCounter.Tests -c Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: build/ArmyArrowCounter
+          if-no-files-found: error

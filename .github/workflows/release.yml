@@ -1,0 +1,36 @@
+# Publishes to GitHub only. Nexus and Steam are separate, manually triggered
+# workflows, so tagging can never push an unverified build to players.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ArmyArrowCounter
+          path: ArmyArrowCounter
+
+      - name: Zip the module folder
+        run: zip -r ArmyArrowCounter-${{ github.ref_name }}.zip ArmyArrowCounter
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            "ArmyArrowCounter-${{ github.ref_name }}.zip" \
+            --title "${{ github.ref_name }}" \
+            --generate-notes

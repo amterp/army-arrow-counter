@@ -1,0 +1,30 @@
+# Manual only. Run it once you have seen the counter render in a battle.
+# Needs STEAM_LOGIN, STEAM_PASSWORD and STEAM_AUTH_CODE secrets. The auth code is a
+# Steam Guard shared secret, not a one-time code; BUTR's uploader derives the current
+# code from it, which is what lets this run unattended.
+name: Publish to Steam Workshop
+
+on:
+  workflow_dispatch:
+    inputs:
+      description:
+        description: 'Change notes shown on the Workshop item'
+        required: true
+        type: string
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build.yml
+
+  publish:
+    needs: build
+    uses: BUTR/workflows/.github/workflows/release-steam.yml@master
+    with:
+      workshop_id: 2875690459
+      mod_id: ArmyArrowCounter
+      mod_description: ${{ inputs.description }}
+      artifact_name: ArmyArrowCounter
+    secrets:
+      STEAM_LOGIN: ${{ secrets.STEAM_LOGIN }}
+      STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+      STEAM_AUTH_CODE: ${{ secrets.STEAM_AUTH_CODE }}

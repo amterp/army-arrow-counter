@@ -1,0 +1,37 @@
+# Manual only. Run it once you have seen the counter render in a battle.
+# Needs the NEXUSMODS_APIKEY secret, from nexusmods.com/users/myaccount?tab=api
+name: Publish to Nexus Mods
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, without the v (e.g. 1.8.0)'
+        required: true
+        type: string
+      file_group_id:
+        description: 'Nexus file group id - the fileid in the Files tab URL of the file being replaced'
+        required: true
+        type: string
+      description:
+        description: 'Change notes shown on the file'
+        required: true
+        type: string
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build.yml
+
+  publish:
+    needs: build
+    uses: BUTR/workflows/.github/workflows/release-nexusmods.yml@master
+    with:
+      nexusmods_game_id: mountandblade2bannerlord
+      nexusmods_mod_id: '448'
+      nexusmods_file_group_id: ${{ inputs.file_group_id }}
+      mod_filename: ArmyArrowCounter
+      mod_version: ${{ inputs.version }}
+      mod_description: ${{ inputs.description }}
+      artifact_name: ArmyArrowCounter
+    secrets:
+      NEXUSMODS_APIKEY: ${{ secrets.NEXUSMODS_APIKEY }}
