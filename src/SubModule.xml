@@ -1,7 +1,8 @@
- <Module>
+﻿ <Module>
      <Name value="Army Arrow Counter"/>
      <Id value="ArmyArrowCounter"/>
-     <Version value="v1.7.0"/>
+     <!-- Stamped by the build from <Version> in ArmyArrowCounter.csproj. -->
+     <Version value="v0.0.0"/>
      <SingleplayerModule value="true"/>
      <MultiplayerModule value="false"/>
      <DependedModules>

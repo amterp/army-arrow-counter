@@ -5,8 +5,11 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>ArmyArrowCounter</AssemblyName>
     <RootNamespace>ArmyArrowCounter</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- The mod's version, and the only place it is written down. The build stamps
+         it into SubModule.xml and Main.cs reads it back off the assembly. -->
+    <Version>1.8.0</Version>
     <!-- The game version this build targets. A game update changes this line and nothing else. -->
     <BannerlordVersion>1.4.8.119303</BannerlordVersion>
   </PropertyGroup>
@@ -32,6 +35,7 @@
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModuleDir)/bin/Win64_Shipping_Client" />
     <Copy SourceFiles="@(ModuleContent)"
           DestinationFiles="@(ModuleContent->'$(ModuleDir)/%(PackagePath)/%(RecursiveDir)%(Filename)%(Extension)')" />
+    <XmlPoke XmlInputPath="$(ModuleDir)/SubModule.xml" Query="/Module/Version/@value" Value="v$(Version)" />
   </Target>
 
 </Project>

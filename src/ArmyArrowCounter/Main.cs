@@ -1,4 +1,5 @@
-﻿using TaleWorlds.MountAndBlade;
+﻿using System.Reflection;
+using TaleWorlds.MountAndBlade;
 
 namespace ArmyArrowCounter {
     public class Main : MBSubModuleBase {
@@ -8,7 +9,7 @@ namespace ArmyArrowCounter {
             base.OnBeforeInitialModuleScreenSetAsRoot();
             if (!IsLoaded) {
                 Initialize();
-                Utils.Log("Mod loaded: Army Arrow Counter v1.7.0 (Nexus)");
+                Utils.Log("Mod loaded: Army Arrow Counter v{0}", ModVersion());
                 IsLoaded = true;
             }
         }
@@ -20,6 +21,10 @@ namespace ArmyArrowCounter {
             }
 
             mission.AddMissionBehavior(new AacMissionBehavior());
+        }
+
+        private static string ModVersion() {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
         }
 
         private void Initialize() {
