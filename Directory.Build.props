@@ -3,6 +3,8 @@
        so these must not drift. -->
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <!-- The game release everything targets. A compatibility update changes this line. -->
+    <BannerlordVersion>1.4.8.119303</BannerlordVersion>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 </Project>

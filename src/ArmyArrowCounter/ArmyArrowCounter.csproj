@@ -10,8 +10,6 @@
     <!-- The mod's version, and the only place it is written down. The build stamps
          it into SubModule.xml and Main.cs reads it back off the assembly. -->
     <Version>1.8.0</Version>
-    <!-- The game version this build targets. A game update changes this line and nothing else. -->
-    <BannerlordVersion>1.4.8.119303</BannerlordVersion>
   </PropertyGroup>
 
   <ItemGroup>

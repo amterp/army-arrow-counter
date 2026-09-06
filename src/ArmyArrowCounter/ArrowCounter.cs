@@ -103,7 +103,7 @@ namespace ArmyArrowCounter {
             int total = 0;
             foreach (EquipmentIndex slot in AmmoBearingSlots) {
                 MissionWeapon weapon = agent.Equipment[slot];
-                if (weapon.Equals(MissionWeapon.Invalid) || weapon.IsShield()) {
+                if (weapon.IsEmpty || weapon.IsShield()) {
                     continue;
                 }
                 total += weapon.Amount;
@@ -115,7 +115,7 @@ namespace ArmyArrowCounter {
             int total = 0;
             foreach (EquipmentIndex slot in AmmoBearingSlots) {
                 MissionWeapon weapon = agent.Equipment[slot];
-                if (weapon.Equals(MissionWeapon.Invalid) || weapon.IsShield()) {
+                if (weapon.IsEmpty || weapon.IsShield()) {
                     continue;
                 }
                 total += agent.Equipment.GetMaxAmmo(slot);
