@@ -1,0 +1,8 @@
+<Project>
+  <!-- Shared by the mod and the test project. The Core/ sources compile into both,
+       so these must not drift. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+</Project>

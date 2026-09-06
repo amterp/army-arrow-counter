@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.6.6" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6" />
+  </ItemGroup>
+
+  <!-- Compiled in, not referenced: the mod ships a single DLL. Globbing the folder
+       means a TaleWorlds using added to Core/ breaks this build immediately. -->
+  <ItemGroup>
+    <Compile Include="../../src/ArmyArrowCounter/core/**/*.cs"
+             Link="core/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>
