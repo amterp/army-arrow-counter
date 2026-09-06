@@ -355,3 +355,6 @@ MigrationBackup/
 
 # Packaged module output
 build/
+
+# Agent instructions live in AGENTS.md; this is a symlink to it.
+CLAUDE.md
