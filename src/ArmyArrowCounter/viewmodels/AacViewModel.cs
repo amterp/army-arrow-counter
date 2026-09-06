@@ -1,12 +1,13 @@
-﻿using System;
 using TaleWorlds.Library;
 
 namespace ArmyArrowCounter {
-    abstract class AacViewModel : ViewModel {
-        protected ArrowCounter ArrowCounter;
+    class AacViewModel : ViewModel {
+        private readonly ArrowCounter ArrowCounter;
+        private readonly ArrowTextFormatter Formatter;
 
-        public AacViewModel(ArrowCounter arrowCounter) {
+        public AacViewModel(ArrowCounter arrowCounter, ArrowTextFormatter formatter) {
             ArrowCounter = arrowCounter;
+            Formatter = formatter;
             arrowCounter.RemainingArrowsUpdateEvent += OnArrowCountUpdated;
             arrowCounter.MaxArrowsUpdateEvent += OnArrowCountUpdated;
         }
@@ -15,11 +16,9 @@ namespace ArmyArrowCounter {
             base.OnPropertyChanged("ArrowCounterText");
         }
 
-        protected abstract string GetArrowCounterText();
-
         [DataSourceProperty]
         public string ArrowCounterText {
-            get => String.Format("{0}{1}", Config.Instance().Prefix, GetArrowCounterText());
+            get => Formatter.Format(ArrowCounter.RemainingArrows, ArrowCounter.MaxArrows, Config.Instance().Prefix);
             set {
             }
         }

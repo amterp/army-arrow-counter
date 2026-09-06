@@ -1,18 +1,9 @@
-﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Xml;
-using TaleWorlds.Library;
 
 namespace ArmyArrowCounter {
     class Config {
-        private static readonly string COUNTER_TYPE_XML_NAME = "CounterType";
-        private static readonly string PREFIX_XML_NAME = "Prefix";
-        private static readonly string CONFIG_FILE_SUB_PATH = "Modules/ArmyArrowCounter/config/config.xml";
-        private static readonly string CONFIG_FILE_FULL_PATH = BasePath.Name + CONFIG_FILE_SUB_PATH;
-        private static readonly CounterType DEFAULT_COUNTER_TYPE = CounterType.EXACT_FRACTION;
-        private static readonly string DEFAULT_PREFIX = "Army arrows: ";
-        private static readonly bool IS_STEAM_WORKSHOP = false; // todo this is pretty hacky. Way to detect at runtime?
-
         private static Config _Config = null;
 
         public CounterType CounterType { get; private set; }
@@ -20,66 +11,51 @@ namespace ArmyArrowCounter {
 
         public static Config Instance() {
             if (_Config == null) {
-                Load();
+                _Config = Load();
             }
 
             return _Config;
         }
 
-        private Config() {
-            this.CounterType = DEFAULT_COUNTER_TYPE;
-            this.Prefix = DEFAULT_PREFIX;
+        private Config(CounterType counterType, string prefix) {
+            CounterType = counterType;
+            Prefix = prefix;
         }
 
-        private static void Load() {
-            _Config = new Config();
+        private static Config Defaults() {
+            return new Config(ConfigParser.DEFAULT_COUNTER_TYPE, ConfigParser.DEFAULT_PREFIX);
+        }
 
-            if (IS_STEAM_WORKSHOP) {
-                return;
+        private static Config Load() {
+            string path = ModulePaths.ConfigFilePathFor(Assembly.GetExecutingAssembly().Location);
+
+            if (!File.Exists(path)) {
+                Utils.Log("Army Arrow Counter: no config file at '{0}', using default settings.", path);
+                return Defaults();
             }
 
-            XmlDocument doc = new XmlDocument();
+            ParsedConfig parsed;
             try {
-                doc.Load(CONFIG_FILE_FULL_PATH);
-            } catch (FileNotFoundException e) {
-                Utils.LogWithColor(Utils.RED, "AAC ERROR: Expected to find config file located at '{0}', but could not. Using default config.", CONFIG_FILE_SUB_PATH);
-                return;
+                parsed = ConfigParser.Parse(File.ReadAllText(path));
             } catch (XmlException e) {
-                Utils.LogWithColor(Utils.RED, "AAC ERROR: Invalid config file '{0}'. Received exception: {1} Using default config.", CONFIG_FILE_SUB_PATH, e.Message);
-                return;
+                Utils.LogWithColor(Utils.RED,
+                    "AAC ERROR: Config file '{0}' is not valid XML ({1}). All settings fall back to defaults. "
+                    + "Fix or delete the file - an unclosed tag is the usual cause.",
+                    path, e.Message);
+                return Defaults();
+            } catch (IOException e) {
+                Utils.LogWithColor(Utils.RED,
+                    "AAC ERROR: Could not read config file '{0}' ({1}). All settings fall back to defaults. "
+                    + "Check the file's permissions.",
+                    path, e.Message);
+                return Defaults();
             }
 
-            bool foundCounterType = false;
-            bool foundPrefix = false;
-            foreach (XmlNode node in doc.DocumentElement) {
-                if (node.Name == COUNTER_TYPE_XML_NAME) {
-                    foundCounterType = true;
-                    try {
-                        _Config.CounterType = (CounterType)Enum.Parse(typeof(CounterType), node.InnerText);
-                    } catch (ArgumentException) {
-                        Utils.LogWithColor(Utils.RED, "AAC ERROR: Invalid {0}: '{1}'. Defaulting to {2}.", COUNTER_TYPE_XML_NAME, node.InnerText, DEFAULT_COUNTER_TYPE);
-                    }
-                } else if (node.Name == PREFIX_XML_NAME) {
-                    foundPrefix = true;
-                    _Config.Prefix = node.InnerText;
-                }
+            foreach (string warning in parsed.Warnings) {
+                Utils.LogWithColor(Utils.RED, "AAC ERROR: {0}", warning);
             }
 
-            if (!foundCounterType) {
-                Utils.LogWithColor(Utils.RED, "AAC ERROR: Failed to find '{0}' tag in config file. Defaulting to {1}.", COUNTER_TYPE_XML_NAME, DEFAULT_COUNTER_TYPE);
-            }
-            if (!foundPrefix) {
-                Utils.LogWithColor(Utils.RED, "AAC ERROR: Failed to find '{0}' tag in config file. Defaulting to {1}.", PREFIX_XML_NAME, DEFAULT_PREFIX);
-            }
+            return new Config(parsed.CounterType, parsed.Prefix);
         }
-    }
-
-    public enum CounterType {
-        EXACT_FRACTION,
-        EXACT_PERCENT,
-        NEAREST_10_PERCENT,
-        NEAREST_20_PERCENT,
-        NEAREST_25_PERCENT,
-        NEAREST_WRITTEN,
     }
 }
