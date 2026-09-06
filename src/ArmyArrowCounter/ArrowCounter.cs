@@ -130,28 +130,37 @@ namespace ArmyArrowCounter {
             AddToMaxArrows(-maxAmmo);
         }
 
-        private static short CalculateRemainingAmmo(Agent agent) {
-            MissionWeapon weaponFromSlot0 = agent.Equipment[EquipmentIndex.Weapon0];
-            short ammoFromSlot0 = weaponFromSlot0.Equals(MissionWeapon.Invalid) || weaponFromSlot0.IsShield() ? (short)0 : weaponFromSlot0.Amount;
-            MissionWeapon weaponFromSlot1 = agent.Equipment[EquipmentIndex.Weapon1];
-            short ammoFromSlot1 = weaponFromSlot1.Equals(MissionWeapon.Invalid) || weaponFromSlot1.IsShield() ? (short)0 : weaponFromSlot1.Amount;
-            MissionWeapon weaponFromSlot2 = agent.Equipment[EquipmentIndex.Weapon2];
-            short ammoFromSlot2 = weaponFromSlot2.Equals(MissionWeapon.Invalid) || weaponFromSlot2.IsShield() ? (short)0 : weaponFromSlot2.Amount;
-            MissionWeapon weaponFromSlot3 = agent.Equipment[EquipmentIndex.Weapon3];
-            short ammoFromSlot3 = weaponFromSlot3.Equals(MissionWeapon.Invalid) || weaponFromSlot3.IsShield() ? (short)0 : weaponFromSlot3.Amount;
-            MissionWeapon weaponFromSlot4 = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
-            short ammoFromSlot4 = weaponFromSlot4.Equals(MissionWeapon.Invalid) || weaponFromSlot4.IsShield() ? (short)0 : weaponFromSlot4.Amount;
+        // Weapon0..Weapon3 plus the extra slot are the only ones that can hold ammo.
+        private static readonly EquipmentIndex[] AmmoBearingSlots = {
+            EquipmentIndex.Weapon0,
+            EquipmentIndex.Weapon1,
+            EquipmentIndex.Weapon2,
+            EquipmentIndex.Weapon3,
+            EquipmentIndex.ExtraWeaponSlot,
+        };
 
-            return (short)(ammoFromSlot0 + ammoFromSlot1 + ammoFromSlot2 + ammoFromSlot3 + ammoFromSlot4);
+        private static short CalculateRemainingAmmo(Agent agent) {
+            int total = 0;
+            foreach (EquipmentIndex slot in AmmoBearingSlots) {
+                MissionWeapon weapon = agent.Equipment[slot];
+                if (weapon.Equals(MissionWeapon.Invalid) || weapon.IsShield()) {
+                    continue;
+                }
+                total += weapon.Amount;
+            }
+            return (short)total;
         }
 
         private static short CalculateMaxAmmo(Agent agent) {
-            int arrowAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.Arrow);
-            int boltAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.Bolt);
-            int javelinAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.Javelin);
-            int axeAmmo = agent.Equipment.GetMaxAmmo(WeaponClass.ThrowingAxe);
-
-            return (short)(arrowAmmo + boltAmmo + javelinAmmo + axeAmmo);
+            int total = 0;
+            foreach (EquipmentIndex slot in AmmoBearingSlots) {
+                MissionWeapon weapon = agent.Equipment[slot];
+                if (weapon.Equals(MissionWeapon.Invalid) || weapon.IsShield()) {
+                    continue;
+                }
+                total += agent.Equipment.GetMaxAmmo(slot);
+            }
+            return (short)total;
         }
     }
 }

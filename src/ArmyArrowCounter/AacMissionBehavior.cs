@@ -97,9 +97,19 @@ namespace ArmyArrowCounter {
             }
         }
 
-        public override void OnItemPickup(Agent agent, SpawnedItemEntity item) {
-            base.OnItemPickup(agent, item);
+        public override void OnBehaviorInitialize() {
+            base.OnBehaviorInitialize();
+            Mission.OnItemPickUp += OnItemPickUp;
+        }
 
+        public override void OnRemoveBehavior() {
+            Mission.OnItemPickUp -= OnItemPickUp;
+            base.OnRemoveBehavior();
+        }
+
+        // Not an override like the other hooks: the game moved item pickup off
+        // MissionBehavior and onto an event on Mission.
+        private void OnItemPickUp(Agent agent, SpawnedItemEntity item) {
             if (!IsActivated) {
                 return;
             }

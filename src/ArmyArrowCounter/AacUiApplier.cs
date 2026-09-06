@@ -10,7 +10,9 @@ namespace ArmyArrowCounter {
         public AacUiApplier(AacMissionBehavior aacMissionBehavior, ViewModel viewModel) {
             ViewModel = viewModel;
             aacMissionBehavior.BattleStartEvent += OnBattleStart;
-            GauntletLayer = new GauntletLayer(100);
+            // The layer name argument was added in place of a "GauntletLayer" default the game
+            // used to supply itself; passing it keeps this layer in the same category as vanilla ones.
+            GauntletLayer = new GauntletLayer("GauntletLayer", 100);
             GauntletLayer.LoadMovie("ArmyArrowCounter", ViewModel);
         }
 
