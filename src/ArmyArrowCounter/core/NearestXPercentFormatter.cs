@@ -16,8 +16,8 @@ namespace ArmyArrowCounter {
                 return String.Format(REPORT_FORMAT, prefix, 0);
             }
 
-            float percentRemaining = remainingArrows / (float)maxArrows * TO_PERCENT;
-            int roundedPercent = (int)Math.Round(percentRemaining / RoundTo) * RoundTo;
+            double percentRemaining = (double)remainingArrows / maxArrows * TO_PERCENT;
+            int roundedPercent = (int)Math.Round(percentRemaining / RoundTo, MidpointRounding.AwayFromZero) * RoundTo;
 
             return String.Format(REPORT_FORMAT, prefix, roundedPercent);
         }

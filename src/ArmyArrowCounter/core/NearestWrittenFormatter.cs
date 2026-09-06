@@ -23,7 +23,7 @@ namespace ArmyArrowCounter {
                 return "all";
             }
 
-            float proportionRemaining = remainingArrows / (float)maxArrows;
+            double proportionRemaining = (double)remainingArrows / maxArrows;
             if (proportionRemaining >= 0.875) {
                 return "almost all";
             } else if (proportionRemaining >= 0.71) {
