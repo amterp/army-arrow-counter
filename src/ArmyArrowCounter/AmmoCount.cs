@@ -29,7 +29,7 @@ namespace ArmyArrowCounter {
         }
 
         internal static int Remaining(MissionEquipment equipment) {
-            return Total(equipment, (eq, slot) => eq[slot].Amount);
+            return Total(equipment, (eq, slot) => eq.GetAmmoAmount(slot));
         }
 
         private static int Total(MissionEquipment equipment, System.Func<MissionEquipment, EquipmentIndex, int> ammoInSlot) {
